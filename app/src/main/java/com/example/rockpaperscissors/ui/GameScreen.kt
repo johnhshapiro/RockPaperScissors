@@ -54,17 +54,21 @@ fun GameScreen(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Column {
-            Button(onClick = { navController.navigate(GameScreen.GameResult.name) }) {
+            Button(onClick = { clickDecision(viewModel, navController) }) {
                 Text("Rock")
             }
-            Button(onClick = { navController.navigate(GameScreen.GameResult.name) }) {
+            Button(onClick = { clickDecision(viewModel, navController) }) {
                 Text("Paper")
             }
-            Button(onClick = { navController.navigate(GameScreen.GameResult.name) }) {
+            Button(onClick = { clickDecision(viewModel, navController) }) {
                 Text("Scissors")
             }
         }
     }
 }
 
+fun clickDecision(viewModel: GameViewModel, navController: NavHostController) {
+    viewModel.updateComputerDecision()
+    navController.navigate(GameScreen.GameResult.name)
+}
 
