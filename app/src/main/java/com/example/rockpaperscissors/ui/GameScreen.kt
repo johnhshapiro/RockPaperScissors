@@ -39,7 +39,7 @@ fun GameApp(
                 GameScreen(viewModel, navController)
             }
             composable(route = GameScreen.GameResult.name) {
-                ResultScreen(viewModel)
+                ResultScreen(viewModel, navController)
             }
         }
     }
