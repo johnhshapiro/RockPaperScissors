@@ -1,4 +1,4 @@
-package com.example.rockpaperscissors.ui
+package com.example.rockpaperscissors.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -13,21 +13,15 @@ class GameViewModel : ViewModel() {
     private val _gameUiState =
         MutableStateFlow(
             GameUiState(
-                computerDecision = Decision.NoDecision("game start"),
-                playerDecision = Decision.NoDecision("game start"),
+                computerDecision = Decision.ROCK,
+                playerDecision = Decision.ROCK,
                 playerWins = false
             )
         )
     val gameUiState: StateFlow<GameUiState> = _gameUiState
 
     fun updateComputerDecision() {
-        val randomNumber = (1..3).random()
-        val computerDecision = when(randomNumber) {
-            1 -> Decision.Rock("rock")
-            2 -> Decision.Paper("paper")
-            3 -> Decision.Scissors("scissors")
-            else -> Decision.NoDecision("error generating result")
-        }
+        val computerDecision = Decision.entries.toTypedArray().random()
 
         viewModelScope.launch {
             _gameUiState.update { state ->
