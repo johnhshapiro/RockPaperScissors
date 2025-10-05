@@ -18,8 +18,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.rockpaperscissors.viewmodel.GameViewModel
 
 enum class GameScreen() {
-    Game(),
-    GameResult()
+    Game,
+    GameResult
 }
 
 @Composable
@@ -27,7 +27,7 @@ fun GameApp(
     viewModel: GameViewModel = viewModel(),
     navController: NavHostController = rememberNavController()
 ) {
-    Scaffold() { innerPadding ->
+    Scaffold { innerPadding ->
         NavHost(
             navController = navController,
             startDestination = GameScreen.Game.name,
@@ -36,10 +36,12 @@ fun GameApp(
                 .padding(innerPadding)
         ) {
             composable(route = GameScreen.Game.name) {
-                GameScreen(viewModel, navController)
+                GameScreen(viewModel) { navController.navigate(GameScreen.GameResult.name) }
             }
             composable(route = GameScreen.GameResult.name) {
-                ResultScreen(viewModel, navController)
+                ResultScreen(
+                    viewModel
+                ) { navController.popBackStack(GameScreen.Game.name, inclusive = false) }
             }
         }
     }
@@ -49,27 +51,26 @@ fun GameApp(
 @Composable
 fun GameScreen(
     viewModel: GameViewModel,
-    navController: NavHostController
+    onClickDecision: () -> Unit
 ) {
     Box(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Column {
-            Button(onClick = { clickDecision(viewModel, navController) }) {
+            Button(onClick = { clickDecision(viewModel, onClickDecision) }) {
                 Text("Rock")
             }
-            Button(onClick = { clickDecision(viewModel, navController) }) {
+            Button(onClick = { clickDecision(viewModel, onClickDecision) }) {
                 Text("Paper")
             }
-            Button(onClick = { clickDecision(viewModel, navController) }) {
+            Button(onClick = { clickDecision(viewModel, onClickDecision) }) {
                 Text("Scissors")
             }
         }
     }
 }
 
-fun clickDecision(viewModel: GameViewModel, navController: NavHostController) {
+fun clickDecision(viewModel: GameViewModel, onClickDecision: () -> Unit) {
     viewModel.updateComputerDecision()
-    navController.navigate(GameScreen.GameResult.name)
+    onClickDecision()
 }
-

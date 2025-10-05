@@ -9,11 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
 import com.example.rockpaperscissors.viewmodel.GameViewModel
 
 @Composable
-fun ResultScreen(viewModel: GameViewModel, navController: NavHostController) {
+fun ResultScreen(viewModel: GameViewModel, onClickPlayAgain: () -> Unit) {
     Box(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
@@ -22,7 +21,7 @@ fun ResultScreen(viewModel: GameViewModel, navController: NavHostController) {
                 "You picked [decision]. \n" +
                         "Computer picked ${viewModel.gameUiState.collectAsState().value.computerDecision}"
             )
-            Button(onClick = { navController.navigate(GameScreen.Game.name) }) {
+            Button(onClick = { onClickPlayAgain() }) {
                 Text("Play Again")
             }
         }

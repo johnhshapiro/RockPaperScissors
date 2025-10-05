@@ -1,12 +1,10 @@
 package com.example.rockpaperscissors.viewmodel
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import com.example.rockpaperscissors.model.Decision
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 
 class GameViewModel : ViewModel() {
 
@@ -23,12 +21,10 @@ class GameViewModel : ViewModel() {
     fun updateComputerDecision() {
         val computerDecision = Decision.entries.toTypedArray().random()
 
-        viewModelScope.launch {
-            _gameUiState.update { state ->
-                state.copy(
-                    computerDecision = computerDecision
-                )
-            }
+        _gameUiState.update { state ->
+            state.copy(
+                computerDecision = computerDecision
+            )
         }
     }
 }
