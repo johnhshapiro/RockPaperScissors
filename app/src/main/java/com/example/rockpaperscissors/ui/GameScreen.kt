@@ -57,20 +57,21 @@ fun GameScreen(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Column {
-            Button(onClick = { clickDecision(viewModel, onClickDecision) }) {
-                Text("Rock")
+            Button(onClick = { clickDecision(viewModel, onClickDecision, "ROCK") }) {
+                Text("ROCK")
             }
-            Button(onClick = { clickDecision(viewModel, onClickDecision) }) {
-                Text("Paper")
+            Button(onClick = { clickDecision(viewModel, onClickDecision, "PAPER") }) {
+                Text("PAPER")
             }
-            Button(onClick = { clickDecision(viewModel, onClickDecision) }) {
-                Text("Scissors")
+            Button(onClick = { clickDecision(viewModel, onClickDecision, "SCISSORS") }) {
+                Text("SCISSORS")
             }
         }
     }
 }
 
-fun clickDecision(viewModel: GameViewModel, onClickDecision: () -> Unit) {
+fun clickDecision(viewModel: GameViewModel, onClickDecision: () -> Unit, playerSelection: String) {
     viewModel.updateComputerDecision()
+    viewModel.playerDecision = playerSelection
     onClickDecision()
 }

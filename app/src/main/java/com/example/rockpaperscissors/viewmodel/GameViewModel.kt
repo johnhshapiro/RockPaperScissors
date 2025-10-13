@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.update
 
 class GameViewModel : ViewModel() {
 
+    lateinit var playerDecision: String
     private val _gameUiState =
         MutableStateFlow(
             GameUiState(

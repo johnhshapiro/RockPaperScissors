@@ -13,13 +13,31 @@ import com.example.rockpaperscissors.viewmodel.GameViewModel
 
 @Composable
 fun ResultScreen(viewModel: GameViewModel, onClickPlayAgain: () -> Unit) {
+
+    val playerSelection = viewModel.playerDecision
+    val computerSelection: String? = viewModel.gameUiState.collectAsState().value.computerDecision.toString()
+
+    val winningMoves = mapOf(
+        "rock" to "scissors",
+        "scissors" to "paper",
+        "paper" to "rock"
+    )
+
+    val gameResult = when {
+        playerSelection.equals(computerSelection, true) -> "DRAW"
+        winningMoves[playerSelection.lowercase()] == computerSelection?.lowercase() -> "YOU WIN"
+        else -> "YOU LOSE"
+    }
+
+
     Box(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Column {
             Text(
-                "You picked [decision]. \n" +
-                        "Computer picked ${viewModel.gameUiState.collectAsState().value.computerDecision}"
+                "You picked $playerSelection. \n" +
+                        "Computer picked $computerSelection \n" +
+                        gameResult
             )
             Button(onClick = { onClickPlayAgain() }) {
                 Text("Play Again")
