@@ -8,23 +8,22 @@ import kotlinx.coroutines.flow.update
 
 class GameViewModel : ViewModel() {
 
-    lateinit var playerDecision: String
     private val _gameUiState =
         MutableStateFlow(
             GameUiState(
                 computerDecision = Decision.ROCK,
-                playerDecision = Decision.ROCK,
-                playerWins = false
+                playerDecision = Decision.ROCK
             )
         )
     val gameUiState: StateFlow<GameUiState> = _gameUiState
 
-    fun updateComputerDecision() {
+    fun play(playerDecision: Decision) {
         val computerDecision = Decision.entries.toTypedArray().random()
 
         _gameUiState.update { state ->
             state.copy(
-                computerDecision = computerDecision
+                computerDecision = computerDecision,
+                playerDecision = playerDecision
             )
         }
     }
@@ -32,6 +31,5 @@ class GameViewModel : ViewModel() {
 
 data class GameUiState(
     val computerDecision: Decision,
-    val playerDecision: Decision,
-    val playerWins: Boolean
+    val playerDecision: Decision
 )

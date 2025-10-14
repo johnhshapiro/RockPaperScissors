@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.rockpaperscissors.model.Decision
 import com.example.rockpaperscissors.viewmodel.GameViewModel
 
 enum class GameScreen() {
@@ -57,21 +58,24 @@ fun GameScreen(
         modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Column {
-            Button(onClick = { clickDecision(viewModel, onClickDecision, "ROCK") }) {
+            Button(onClick = { clickDecision(viewModel, onClickDecision, Decision.ROCK) }) {
                 Text("ROCK")
             }
-            Button(onClick = { clickDecision(viewModel, onClickDecision, "PAPER") }) {
+            Button(onClick = { clickDecision(viewModel, onClickDecision, Decision.PAPER) }) {
                 Text("PAPER")
             }
-            Button(onClick = { clickDecision(viewModel, onClickDecision, "SCISSORS") }) {
+            Button(onClick = { clickDecision(viewModel, onClickDecision, Decision.SCISSORS) }) {
                 Text("SCISSORS")
             }
         }
     }
 }
 
-fun clickDecision(viewModel: GameViewModel, onClickDecision: () -> Unit, playerSelection: String) {
-    viewModel.updateComputerDecision()
-    viewModel.playerDecision = playerSelection
+fun clickDecision(
+    viewModel: GameViewModel,
+    onClickDecision: () -> Unit,
+    playerSelection: Decision
+) {
+    viewModel.play(playerSelection)
     onClickDecision()
 }
